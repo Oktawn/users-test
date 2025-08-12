@@ -9,6 +9,8 @@ interface IEnvConfig {
   DB_DATABASE: string;
   DB_EXTERNAL_PORT: number;
   DB_PORT: number;
+  JWT_SECRET: string;
+  JWT_EXPIRES_IN: string;
 }
 
 class EnvConfig {

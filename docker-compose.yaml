@@ -19,9 +19,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: app-service
     env_file:
       - .env
+    container_name: app-service
+    ports:
+      - "${API_PORT}:3000"
+
     depends_on:
       - db-service
     restart: always
