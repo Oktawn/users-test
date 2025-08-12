@@ -56,7 +56,7 @@ docker compose up -d
 #### Пользователи (`/users`)
 - `GET /users` - получение списка пользователей (требует аутентификации)
 - `GET /users/:id` - получение информации о пользователе по ID (требует аутентификации)
-- `PUT /users/:id` - блокировка пользователя по ID (требует аутентификации)
+- `PUT /users/block/:id` - блокировка пользователя по ID (требует аутентификации)
 
 ### Примеры запросов
 
@@ -65,11 +65,12 @@ docker compose up -d
 curl -X POST http://localhost:3000/auth/register \
   -H "Content-Type: application/json" \
   -d '{
-    "email": "user@example.com",
-    "password": "securepassword",
-    "name": "John Doe",
-    ...
-  }'
+    "email": "test@gg.ri",
+    "password": "password123",
+    "firstName": "test",
+    "lastName":"aby",
+    "dateOfBirth":"2000.12.12"
+}'
 ```
 
 #### Вход в систему
@@ -77,10 +78,27 @@ curl -X POST http://localhost:3000/auth/register \
 curl -X POST http://localhost:3000/auth/login \
   -H "Content-Type: application/json" \
   -d '{
-    "email": "user@example.com",
-    "password": "securepassword"
-  }'
+    "email": "test@gg.ri",
+    "password": "password123"
+  }'  
 ```
+
+
+answer
+```
+{
+    "status": "success",
+    "user": {
+        "id": "299d33da-e74b-4886-b7ba-10d1101c2601",
+        "email": "test@gg.ri",
+        "role": "user"
+    },
+    "accessToken": "..."
+}
+```
+
+
+
 
 #### Получение информации о пользователе (с токеном)
 ```bash
@@ -88,8 +106,25 @@ curl -X GET http://localhost:3000/users/:id \
   -H "Authorization: Bearer YOUR_JWT_TOKEN"
 ```
 
+```
+{
+    "status": "success",
+    "user": {
+        "id": "299d33da-e74b-4886-b7ba-10d1101c2601",
+        "firstName": "test",
+        "lastName": "aby",
+        "dateOfBirth": "2000-12-12T00:00:00.000Z",
+        "role": "user",
+        "isActive": true,
+        "email": "test@gg.ri"
+    }
+}
+```
+
+
 
 ##  Примечания
 
-- Приложение автоматически применяет миграции при запуске
-- Тестовые данные загружаются через seeds
+- Приложение автоматически применяет миграции при запуске;
+- Тестовые данные загружаются через seeds;
+- Даты передаются в формате DD.MM.YYYY.

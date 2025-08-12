@@ -7,6 +7,7 @@ export class AuthController {
 
   async create(req: Request, res: Response) {
     const body: ICreateUser = req.body;
+    body.dateOfBirth = new Date(body.dateOfBirth);
     try {
       const user = await authService.createUser(body);
       res.status(201).json(user);

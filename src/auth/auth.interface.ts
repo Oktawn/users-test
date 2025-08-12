@@ -1,12 +1,9 @@
-import { RoleUser } from "../utils/role.enum.js";
 import { Request } from "express";
 
 interface ICreateUser {
   firstName: string;
   lastName: string;
   dateOfBirth: Date;
-  role: RoleUser;
-  active: boolean;
   email: string;
   password: string;
 }
