@@ -20,6 +20,7 @@ interface IBlockUser {
 interface TokenPayload {
   userId: string;
   role: string;
+  isActive: boolean;
 }
 
 interface AuthenticatedRequest extends Request {

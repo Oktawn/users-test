@@ -33,8 +33,12 @@ export class AuthService {
       if (isUser && compareSync(data.password, isUser.password)) {
         const token = await this.generateToken({
           userId: isUser.id,
-          role: isUser.role
+          role: isUser.role,
+          isActive: isUser.isActive
         });
+        if (!isUser.isActive) {
+          throw new Error("User is blocked");
+        }
         return {
           "status": "success",
           "user": {
@@ -46,13 +50,14 @@ export class AuthService {
         }
       }
     } catch (error) {
-      throw new Error('Login failed');
+      throw new Error(error?.message ?? 'Login failed');
     }
   }
   async generateToken(data: TokenPayload) {
     const clearToken: TokenPayload = {
       userId: data.userId,
-      role: data.role
+      role: data.role,
+      isActive: data.isActive
     };
     return jwt.sign(clearToken, envConfig.get("JWT_SECRET"), {
       expiresIn: ms(envConfig.get("JWT_EXPIRES_IN") as ms.StringValue)

@@ -6,8 +6,6 @@ import { RoleUser } from "../utils/role.enum.js";
 export const usersRouter = Router();
 const usersController = new UsersController();
 
-usersRouter.get('/', authMiddleware([RoleUser.ADMIN]), usersController.list);
-
 usersRouter.put('/block/:id', authMiddleware(), usersController.block);
-
+usersRouter.get('/', authMiddleware([RoleUser.ADMIN]), usersController.list);
 usersRouter.get('/:id', authMiddleware(), usersController.getById);

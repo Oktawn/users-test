@@ -1,4 +1,4 @@
-import { NextFunction, Response } from "express";
+import e, { NextFunction, Response } from "express";
 import { AuthenticatedRequest, TokenPayload } from "./auth.interface.js";
 import { RoleUser } from "../utils/role.enum.js";
 import { verify } from "jsonwebtoken";
@@ -14,10 +14,14 @@ export function authMiddleware(requiredRoles?: RoleUser[]) {
     }
     try {
       const payload = verifyToken(token);
-      if (checkRole(payload, requiredRoles)) {
+      if (!checkStatus(payload)) {
+        res.status(401).json({ message: 'Unauthorized' });
+      }
+      else if (checkRole(payload, requiredRoles)) {
         req.user = payload;
         next();
-      } else {
+      }
+      else {
         res.status(403).json({ message: 'Forbidden' });
       }
     } catch (error) {
@@ -36,6 +40,10 @@ function verifyToken(token: string) {
 function checkRole(payload: TokenPayload, roles?: RoleUser[]) {
   if (!roles || roles.length === 0) return true;
   return roles.includes(payload.role as RoleUser);
+}
+
+function checkStatus(payload: TokenPayload) {
+  return payload.isActive;
 }
 
 function checkTokenFromHeader(req: AuthenticatedRequest) {

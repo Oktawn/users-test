@@ -12,7 +12,7 @@ export class AuthController {
       const user = await authService.createUser(body);
       res.status(201).json(user);
     } catch (error) {
-      res.status(400).json({ message: 'User creation failed' });
+      res.status(400).json({ message: error?.message });
     }
   }
 
@@ -23,7 +23,7 @@ export class AuthController {
       const user = await authService.login(body);
       res.status(200).json(user);
     } catch (error) {
-      res.status(401).json({ message: 'Login failed' });
+      res.status(401).json({ message: error?.message });
     }
   }
 

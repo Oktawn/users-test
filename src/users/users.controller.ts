@@ -21,16 +21,16 @@ export class UsersController {
       }
       res.json(user);
     } catch (e) {
-      res.status(500).json({ message: "Failed to get user" });
+      res.status(500).json({ message: e?.message });
     }
   }
 
   async list(_: Request, res: Response) {
     try {
       const users = await usersService.listUsers();
-      res.json(users);
+      res.status(200).json(users);
     } catch (e) {
-      res.status(500).json({ message: "Failed to list users" });
+      res.status(404).json({ message: e?.message });
     }
   }
 
@@ -49,7 +49,7 @@ export class UsersController {
       }
       res.status(204).json(ok);
     } catch (e) {
-      res.status(500).json({ message: "Failed to block user" });
+      res.status(500).json({ message: e?.message });
     }
   }
 }
