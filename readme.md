@@ -39,12 +39,8 @@ JWT_EXPIRES_IN=7d
 3. Запустите приложение:
 
 ```bash
+docker compose build
 docker compose up
-```
-
-Для запуска в фоновом режиме:
-```bash
-docker compose up -d
 ```
 
 ##  Доступные эндпоинты
